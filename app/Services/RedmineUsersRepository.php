@@ -99,20 +99,39 @@ class RedmineUsersRepository
         }
     }
 
-    public static function getTimeEntries(array $redmineIds, \DateTimeImmutable $dateFrom, \DateTimeImmutable $dateTo)
+    /**
+     * @param array $redmineIds array of redmine user ids
+     * @example $redmineIds = [190,340,81,297,177]
+     * @param \DateTimeImmutable $dateFrom
+     * @param \DateTimeImmutable $dateTo
+     * @param int $limit
+     * @return array
+     */
+    public static function getTimeEntries(
+        array $redmineIds,
+        \DateTimeImmutable $dateFrom,
+        \DateTimeImmutable $dateTo,
+        int $limit = 200
+    )
+    : array
     {
-        //$redmineIds = [190,340,81,297,177];
         $connector = self::getConnector();
         $timeEntries = [];
         foreach ($redmineIds as $id) {
             $array = [
                 "from" => $dateFrom->format("Y-m-d"),
                 "to" => $dateTo->format("Y-m-d"),
-                'user_id' => $id
+                'user_id' => $id,
+                'limit' => $limit,
             ];
 
             $timeEntries[] = $connector->getConnector()->getApi('time_entry')->all($array);
         }
-        dd($timeEntries);
+
+        if (sizeof($timeEntries) > 0) {
+            $timeEntries = $timeEntries[0]['time_entries'];
+        }
+
+        return $timeEntries;
     }
 }

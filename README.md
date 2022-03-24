@@ -15,6 +15,11 @@ npm run dev
 php artisan migrate
 ```
 
+## App address
+
+Site open on [http://0.0.0.0](http://0.0.0.0)
+
+
 #### Debug
 
 [Laravel 8 Debugging with XDebug & PHPStorm](https://medium.com/codex/laravel-8-0-sail-xdebug-phpstorm-5cc900e96da4)
